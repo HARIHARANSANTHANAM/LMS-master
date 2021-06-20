@@ -1,18 +1,18 @@
 import React,{useState} from "react";
 import Drawer from "@material-ui/core/Drawer";
-import withStyles from "@material-ui/core/styles/withStyles";
 import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemText,
   Divider,
-  Avatar
+  Avatar,
+  Typography
 } from "@material-ui/core";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import useCheckMobileScreen from "../customHooks/useCheckMobileScreen";
 
+import logo from "../assets/poornatha_logo1.png";
 import { makeStyles} from "@material-ui/core/styles";
 
 
@@ -39,7 +39,7 @@ function DrawerComponent(props) {
 
     return (
       <Drawer open={checkMobileView?props.left:true} onClose={props.toggleDrawerHandler} 
-      variant={checkMobileView?"temporary":"permanent"}  BackdropProps={{ invisible: true }} >
+      variant={checkMobileView?"temporary":"permanent"}   >
          <div
         className={classes.list}
         role="presentation"
@@ -47,21 +47,23 @@ function DrawerComponent(props) {
         onKeyDown={props.toggleDrawerHandler}
       >
           <List>
-              <ListItem button>
-              <ListItemIcon>
-              <Avatar src={`https://lh3.googleusercontent.com/ogw/ADea4I6abWYeWhWZrdC_L-pjQA9_5qjSbrvJ7zUpphpjRg=s32-c-mo`}></Avatar>
-              </ListItemIcon>
-              <ListItemText>  hari21032001</ListItemText>
+              <ListItem>
+
+              <div>
+          <img src={logo} alt="Poornatha" style={{ width: "30px" }} />
+        </div>
+        <Typography component="h1" variant="h6">
+            Poornatha
+          </Typography>
               </ListItem>
           </List>
-         <Divider/> 
         <List>
           {["Inbox", "Starred", "Send email", "Drafts","People"].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <Typography variant="p">{text}</Typography>
             </ListItem>
           ))}
         </List>
@@ -72,7 +74,8 @@ function DrawerComponent(props) {
               <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
               </ListItemIcon>
-              <ListItemText primary={text} />
+              
+              <Typography variant="p">{text}</Typography>
             </ListItem>
           ))}
         </List>

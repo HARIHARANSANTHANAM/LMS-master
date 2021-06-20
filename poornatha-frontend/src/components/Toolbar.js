@@ -17,7 +17,6 @@ import logo from '../assets/poornatha_logo1.png';
 import { UserContext } from "../App";
 import {useHistory} from 'react-router-dom'
 import ExitToApp from '@material-ui/icons/ExitToApp';
-import { callbackify } from "util";
 
 const styles = theme => ({
   grow: {
@@ -85,21 +84,15 @@ const styles = theme => ({
       cursor:"pointer"
   },
   appbar:{
+     zIndex:theme.zIndex.drawer + 1,
       backgroundColor:"black",
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
       width:`calc("100%" - 230px)`,
-      marginLeft: 230,
-      [theme.breakpoints.up('md')]: {
-        width: `calc(100% - 230px)`,
-        marginLeft: 230
-      },
-      [theme.breakpoints.down('sm')]: {
-
-        marginLeft: 0
-      },
+      width:"100%",
+      position:"sticky"
   },
   brand_img:{
     height:"40px",
