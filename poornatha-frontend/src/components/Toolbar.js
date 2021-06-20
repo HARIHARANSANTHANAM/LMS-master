@@ -92,7 +92,7 @@ const styles = theme => ({
       }),
       width:`calc("100%" - 230px)`,
       width:"100%",
-      position:"sticky"
+      position:"fixed"
   },
   brand_img:{
     height:"40px",
