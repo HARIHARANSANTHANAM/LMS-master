@@ -1,4 +1,4 @@
-### To run this code
+# To run this code
 ## These are all the steps involved to run the softwares
 <ul>
 <li>first of all clone the project from github</li>
@@ -8,7 +8,7 @@
 <li>And finally run the command <strong>npm run dev</strong></li>
 </ul>
 
-### required tools to run the software
+## Required tools to run the software
 <ul>
 <li>First of all install node.js 14.17.1 LTS version</li>
 <a href="https://nodejs.org/en/">to download nodejs</a>
