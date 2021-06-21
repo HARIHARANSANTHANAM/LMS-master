@@ -11,9 +11,11 @@ import {
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import useCheckMobileScreen from "../customHooks/useCheckMobileScreen";
-
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import HomeIcon from '@material-ui/icons/Home';
 import logo from "../assets/poornatha_logo1.png";
 import { makeStyles} from "@material-ui/core/styles";
+import {Link} from 'react-router-dom';
 
 
 
@@ -57,16 +59,26 @@ function DrawerComponent(props) {
           </Typography>
               </ListItem>
           </List>
-        <List>
-          {["Inbox", "Starred", "Send email", "Drafts","People"].map((text, index) => (
-            <ListItem button key={text}>
+          <List>
+            <Link to="/Application_Form" style={{color:"black",textDecoration:"none"}}>
+            <ListItem>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              <ListAltIcon></ListAltIcon>
               </ListItemIcon>
-              <Typography variant="p">{text}</Typography>
+
+              <Typography variant="p">Application Form </Typography>
             </ListItem>
-          ))}
-        </List>
+            </Link>
+            <Link to="/" style={{color:"black",textDecoration:"none"}}>
+            <ListItem>
+              <ListItemIcon>
+              <HomeIcon/>
+              </ListItemIcon>
+
+              <Typography variant="p">Home </Typography>
+            </ListItem>
+            </Link>
+          </List>
         <Divider />
         <List>
           {["All mail", "Trash", "Spam"].map((text, index) => (

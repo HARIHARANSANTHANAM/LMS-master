@@ -1,11 +1,10 @@
 import React,{useEffect} from 'react'
 import ToolbarComponent from "../components/Toolbar";
 import DrawerComponent from "../components/Drawer";
-import {useHistory} from 'react-router-dom';
+import {useHistory,Route,Switch,BrowserRouter} from 'react-router-dom';
 import clsx from 'clsx';
 import { makeStyles} from '@material-ui/core/styles';
 import {Grid} from '@material-ui/core';
-
 
 
 
@@ -49,6 +48,7 @@ function Home(props) {
           toggleDrawerHandler={props.toggleDrawer}
           DrawerWidth={props.DrawerWidth}
         />
+       
         <main className={clsx(classes.content)}> 
         <div style={{marginTop:"5%"}}>
           <img src="https://poornatha.com/assets/images/about_9.jpg" alt="" width="50%" style={{objectFit:"cover",height:"60vh"}}/>
