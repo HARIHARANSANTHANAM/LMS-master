@@ -19,6 +19,10 @@ import http from "../httpService/http";
 import logo from "../assets/poornatha_logo1.png";
 import { UserContext } from "../App";
 
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import LinearProgress from "@material-ui/core/LinearProgress";
 
 function Copyright() {
@@ -67,6 +71,7 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [indicator, setIndicator] = useState("");
+  const [showpassword, setshowpassword] = useState(false)
 
   const [emailError, setEmailError] = useState({
     error: false,
@@ -189,21 +194,21 @@ export default function SignIn() {
               fullWidth
               name="password"
               label="Password"
-              type="password"
+              type={showpassword?"text":"password"}
               onKeyDown={handleCapslockIdentifier}
               onChange={handlePasswordChange}
               error={indicator}
               helperText={indicator}
-              id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+             <FormControlLabel
+              control={<Checkbox value="showpassword" color="primary" />}
               onChange={() => {
-                setRememberMe(!rememberMe);
+                setshowpassword(!showpassword);
               }}
-              label="Remember me"
-            />
+              label="Show Password"
+            /><br></br><br></br>
+           
             <Button
               type="submit"
               fullWidth
@@ -214,6 +219,13 @@ export default function SignIn() {
             >
               Sign In
             </Button>
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              onChange={() => {
+                setRememberMe(!rememberMe);
+              }}
+              label="Remember me"
+            />
             <Grid container>
               <Grid item xs>
                 <Link href="/ForgetPassword" variant="body2">
