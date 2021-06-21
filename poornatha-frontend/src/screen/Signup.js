@@ -234,10 +234,10 @@ export default function SignUp() {
       .post("/auth/Signup", user)
       .then((res) => {
         console.log(res);
-        let { error, success } = res;
+        let { error, success,errormsg } = res.data;
         if (error) {
           setLoading(false);
-          toast.error("User already exists..");
+          toast.error(errormsg,{});
         }
         if (success) {
           http
@@ -259,7 +259,7 @@ export default function SignUp() {
     <>
     {isLoading ? <LinearProgress color="primary" /> : <></>}
     <Container component="main" maxWidth="xs">
-      
+      <ToastContainer></ToastContainer>
 
       <CssBaseline />
       <div className={classes.paper}>  

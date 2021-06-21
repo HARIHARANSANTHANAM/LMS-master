@@ -24,12 +24,25 @@ const User_Signup = (req, res) => {
       new_user.save((err) => {
         if (err) {
           console.log(err);
-          res.send(
-            JSON.stringify({
-              error: true,
-              success: false,
-            })
-          );
+          if( err.name === 'MongoError' && err.code === 11000 && err.keyValue.phone_no)
+          {
+            return res.status(200).send(
+              JSON.stringify({
+                error: true,
+                success: false,
+                errormsg:"Phone no already Exist"
+              })
+            );
+          }
+          else if( err.name === 'MongoError' && err.code === 11000 && err.keyValue.email){
+            return res.status(200).send(
+              JSON.stringify({
+                error: true,
+                success: false,
+                errormsg:"Email already Exist"
+              })
+            );
+          }
         } else {
           res.send(
             JSON.stringify({
