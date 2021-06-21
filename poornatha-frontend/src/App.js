@@ -24,7 +24,6 @@ const Routing=()=>{
   useEffect(()=>{
     if(user){
       dispatch({type:"USER",payload:user})
-      history.push('/');
     }
   },[state])
 

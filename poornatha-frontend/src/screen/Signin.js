@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 // eslint-disable-next-line
 import { useHistory } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
@@ -110,6 +110,15 @@ export default function SignIn() {
       setIndicator("");
     }
   };
+
+  const user = JSON.parse(localStorage.getItem("token"));
+  useEffect(() => {
+    if (user) {
+      dispatch({ type: "USER", payload: user });
+      history.push("/");
+    }
+  }, [state]);
+
   const handleLoginUserSubmit = (e) => {
     e.preventDefault();
     const user = {
@@ -129,7 +138,7 @@ export default function SignIn() {
           localStorage.setItem("token", JSON.stringify(res.data.token));
           dispatch({ type: "USER", payload: res.data.token });
           toast.success("SignedIn Successfully");
-          history.push("/Home");
+          history.push("/");
         } else {
           console.log(res);
           setLoading(false);
@@ -149,10 +158,10 @@ export default function SignIn() {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
-        <div>
-          <img src={logo} alt="Poornatha" style={{ width: "50px" }} />
-        </div>
-        <Typography component="h1" variant="h5">
+          <div>
+            <img src={logo} alt="Poornatha" style={{ width: "50px" }} />
+          </div>
+          <Typography component="h1" variant="h5">
             Poornatha
           </Typography>
           <Typography component="h5" variant="body2">

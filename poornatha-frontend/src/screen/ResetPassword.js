@@ -4,7 +4,6 @@ import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Link from "@material-ui/core/Link";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,7 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles ,fade} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import http from "../httpService/http";
-
+import { useHistory } from "react-router-dom";
 import logo from "../assets/poornatha_logo1.png";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
@@ -47,6 +46,7 @@ export default function ResetPassword(props) {
   const [password, setRetypePassword] = useState("");
   console.log(props.match.params._id);
   const [isLoading, setLoading] = useState(false);
+  const history=useHistory();
 
   const [passError, setPassError] = useState({
     error: false,
@@ -120,6 +120,7 @@ export default function ResetPassword(props) {
     console.log(e.target.value);
   };
   const handleUserFormSubmit = (e) => {
+    e.preventDefault();
     console.log(new_password);
     setLoading(true);
     const user = {
@@ -131,8 +132,10 @@ export default function ResetPassword(props) {
         toast.success("Reset Successful!!");
         console.log(res);
         setLoading(false);
+        history.push('/Signin');
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {console.log(err);
+        setLoading(false);});
   };
   return (
     <>

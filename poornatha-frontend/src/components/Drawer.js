@@ -60,6 +60,15 @@ function DrawerComponent(props) {
               </ListItem>
           </List>
           <List>
+          <Link to="/" style={{color:"black",textDecoration:"none"}}>
+            <ListItem>
+              <ListItemIcon>
+              <HomeIcon/>
+              </ListItemIcon>
+
+              <Typography variant="p">Home </Typography>
+            </ListItem>
+            </Link>
             <Link to="/Application_Form" style={{color:"black",textDecoration:"none"}}>
             <ListItem>
               <ListItemIcon>
@@ -69,15 +78,7 @@ function DrawerComponent(props) {
               <Typography variant="p">Application Form </Typography>
             </ListItem>
             </Link>
-            <Link to="/" style={{color:"black",textDecoration:"none"}}>
-            <ListItem>
-              <ListItemIcon>
-              <HomeIcon/>
-              </ListItemIcon>
-
-              <Typography variant="p">Home </Typography>
-            </ListItem>
-            </Link>
+            
           </List>
         <Divider />
         <List>

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -74,6 +74,14 @@ export default function ForgetPassword() {
     validateEmail(e);
     console.log(e.target.value);
   };
+
+  const user = JSON.parse(localStorage.getItem("token"));
+  useEffect(() => {
+    if (user) {
+      dispatch({ type: "USER", payload: user });
+      history.push("/");
+    }
+  }, [state]);
 
   const handleForgetPasswordSubmit = (e) => {
     e.preventDefault();

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
@@ -10,7 +10,7 @@ import Box from "@material-ui/core/Box";
 import logo from "../assets/poornatha_logo1.png";
 import { useHistory } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles ,fade } from "@material-ui/core/styles";
+import { makeStyles, fade } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import http from "../httpService/http";
 import { UserContext } from "../App";
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     "&:hover": {
       backgroundColor: fade(theme.palette.common.black, 0.25),
-    }
+    },
   },
 }));
 
@@ -220,6 +220,15 @@ export default function SignUp() {
     confirmPass(e);
     console.log(e.target.value);
   };
+
+  const user = JSON.parse(localStorage.getItem("token"));
+  useEffect(() => {
+    if (user) {
+      dispatch({ type: "USER", payload: user });
+      history.push("/");
+    }
+  }, [state]);
+
   const handleUserFormSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -234,10 +243,10 @@ export default function SignUp() {
       .post("/auth/Signup", user)
       .then((res) => {
         console.log(res);
-        let { error, success,errormsg } = res.data;
+        let { error, success, errormsg } = res.data;
         if (error) {
           setLoading(false);
-          toast.error(errormsg,{});
+          toast.error(errormsg, {});
         }
         if (success) {
           http
@@ -245,6 +254,8 @@ export default function SignUp() {
             .then((res) => {
               console.log(res);
               if (res.statusText === "OK") {
+                toast.success("Email is Sent!!");
+                setLoading(false);
                 console.log("Redirected Successfully");
               } else {
                 setLoading(false);
@@ -257,156 +268,156 @@ export default function SignUp() {
   };
   return (
     <>
-    {isLoading ? <LinearProgress color="primary" /> : <></>}
-    <Container component="main" maxWidth="xs">
-      <ToastContainer></ToastContainer>
+      {isLoading ? <LinearProgress color="primary" /> : <></>}
+      <Container component="main" maxWidth="xs">
+        <ToastContainer></ToastContainer>
 
-      <CssBaseline />
-      <div className={classes.paper}>  
-        <div>
-          <img src={logo} alt="Poornatha" style={{ width: "50px" }} />
-        </div>
-        <Typography component="h1" variant="h5">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <div>
+            <img src={logo} alt="Poornatha" style={{ width: "50px" }} />
+          </div>
+          <Typography component="h1" variant="h5">
             Poornatha
           </Typography>
           <Typography component="h5" variant="body2">
             Sign up
           </Typography>
-        <form className={classes.form}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                onChange={handleFirstNameChange}
-                label="First Name"
-                autoFocus
-                error={fnameError.error}
-                helperText={fnameError.helperText}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                onChange={handleLastNameChange}
-                autoComplete="lname"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                onChange={handleEmailChange}
-                autoComplete="email"
-                error={emailError.error}
-                helperText={emailError.helperText}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="phone"
-                label="Phone Number"
-                name="phone"
-                type="number"
-                onChange={handlePhoneNumberChange}
-                autoComplete="phone"
-                error={phoneError.error}
-                helperText={phoneError.helperText}
-                onInput={(e) => {
-                  e.target.value = Math.max(0, parseInt(e.target.value))
-                    .toString()
-                    .slice(0, 10);
-                }}
-              />
-            </Grid>
+          <form className={classes.form}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  autoComplete="fname"
+                  name="firstName"
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="firstName"
+                  onChange={handleFirstNameChange}
+                  label="First Name"
+                  autoFocus
+                  error={fnameError.error}
+                  helperText={fnameError.helperText}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="lastName"
+                  label="Last Name"
+                  name="lastName"
+                  onChange={handleLastNameChange}
+                  autoComplete="lname"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  onChange={handleEmailChange}
+                  autoComplete="email"
+                  error={emailError.error}
+                  helperText={emailError.helperText}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="phone"
+                  label="Phone Number"
+                  name="phone"
+                  type="number"
+                  onChange={handlePhoneNumberChange}
+                  autoComplete="phone"
+                  error={phoneError.error}
+                  helperText={phoneError.helperText}
+                  onInput={(e) => {
+                    e.target.value = Math.max(0, parseInt(e.target.value))
+                      .toString()
+                      .slice(0, 10);
+                  }}
+                />
+              </Grid>
 
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="set_password"
-                label="Enter New Password"
-                type="password"
-                onChange={handleNewPasswordChange}
-                id="set_password"
-                autoComplete
-                error={passError.error}
-                helperText={passError.helperText}
-              />
-            </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  name="set_password"
+                  label="Enter New Password"
+                  type="password"
+                  onChange={handleNewPasswordChange}
+                  id="set_password"
+                  autoComplete
+                  error={passError.error}
+                  helperText={passError.helperText}
+                />
+              </Grid>
 
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="current_password"
-                label="Retype New Password"
-                type="password"
-                id="current_password"
-                onChange={handleRetypePasswordChange}
-                autoComplete="current-password"
-                error={confirmPassError.error}
-                helperText={confirmPassError.helperText}
-              />
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  name="current_password"
+                  label="Retype New Password"
+                  type="password"
+                  id="current_password"
+                  onChange={handleRetypePasswordChange}
+                  autoComplete="current-password"
+                  error={confirmPassError.error}
+                  helperText={confirmPassError.helperText}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      value="allowExtraEmails"
+                      color="primary"
+                      onClick={() => {
+                        setBoxChecked(!boxChecked);
+                      }}
+                      checked={boxChecked}
+                    />
+                  }
+                  label="Accept the terms and conditions of Poornatha Partnering Entrepreneurs"
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    value="allowExtraEmails"
-                    color="primary"
-                    onClick={() => {
-                      setBoxChecked(!boxChecked);
-                    }}
-                    checked={boxChecked}
-                  />
-                }
-                label="Accept the terms and conditions of Poornatha Partnering Entrepreneurs"
-              />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={handleUserFormSubmit}
+              disabled={submitDisabled}
+            >
+              Sign Up
+            </Button>
+            <Grid container justify="flex-end">
+              <Grid item>
+                <Link href="/Signin" variant="body2">
+                  Already have an account? Sign in
+                </Link>
+              </Grid>
             </Grid>
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={handleUserFormSubmit}
-            disabled={submitDisabled}
-          >
-            Sign Up
-          </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Link href="/Signin" variant="body2">
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-      <Box mt={5}>
-        <Copyright />
-      </Box>
-    </Container>
+          </form>
+        </div>
+        <Box mt={5}>
+          <Copyright />
+        </Box>
+      </Container>
     </>
   );
 }
