@@ -79,7 +79,7 @@ export default function ForgetPassword() {
   useEffect(() => {
     if (user) {
       dispatch({ type: "USER", payload: user });
-      history.push("/");
+      history.push("/Home");
     }
   }, [state]);
 

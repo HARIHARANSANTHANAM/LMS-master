@@ -18,12 +18,14 @@ import Container from "@material-ui/core/Container";
 import http from "../httpService/http";
 import logo from "../assets/poornatha_logo1.png";
 import { UserContext } from "../App";
-
+import OutlinedInput from "@material-ui/core/OutlinedInput";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import LinearProgress from "@material-ui/core/LinearProgress";
 
 function Copyright() {
   return (
@@ -103,8 +105,8 @@ export default function SignIn() {
   };
 
   const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-    console.log(e.target.value);
+    setPassword(e.target.value.trim());
+    console.log(e.target.value.trim());
   };
 
   const handleCapslockIdentifier = (event) => {
@@ -141,9 +143,10 @@ export default function SignIn() {
           console.log(res.data.token);
           console.log(res);
           localStorage.setItem("token", JSON.stringify(res.data.token));
+          localStorage.setItem("refresh-token",JSON.stringify(res.data.refreshToken));
           dispatch({ type: "USER", payload: res.data.token });
           toast.success("SignedIn Successfully");
-          history.push("/");
+          history.push("/Home");
         } else {
           console.log(res);
           setLoading(false);
@@ -187,28 +190,38 @@ export default function SignIn() {
               error={emailError.error}
               helperText={emailError.helperText}
             />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type={showpassword?"text":"password"}
-              onKeyDown={handleCapslockIdentifier}
-              onChange={handlePasswordChange}
-              error={indicator}
-              helperText={indicator}
-              autoComplete="current-password"
-            />
-             <FormControlLabel
-              control={<Checkbox value="showpassword" color="primary" />}
+            <FormControl variant="outlined" fullWidth required name="password">
+              <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+              <OutlinedInput
+                type={showpassword ? "text" : "password"}
+                onKeyDown={handleCapslockIdentifier}
+                onChange={handlePasswordChange}
+                error={indicator}
+                helperText={indicator}
+                autoComplete="current-password"
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={()=>setshowpassword(!showpassword)}
+                      edge="end"
+                    >
+                      {showpassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                
+               labelWidth={80}
+              />
+            </FormControl>
+            
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
               onChange={() => {
-                setshowpassword(!showpassword);
+                setRememberMe(!rememberMe);
               }}
-              label="Show Password"
-            /><br></br><br></br>
-           
+              label="Remember me"
+            />
             <Button
               type="submit"
               fullWidth
@@ -219,13 +232,7 @@ export default function SignIn() {
             >
               Sign In
             </Button>
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              onChange={() => {
-                setRememberMe(!rememberMe);
-              }}
-              label="Remember me"
-            />
+           
             <Grid container>
               <Grid item xs>
                 <Link href="/ForgetPassword" variant="body2">

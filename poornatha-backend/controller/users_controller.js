@@ -5,6 +5,9 @@ const account = require("../Model/users_model");
 const jwt = require("jsonwebtoken");
 const transporter=require('../service/emailTransporter');
 const {SendMail}=require('../service/sendMail');
+const jwt_decode=require('jwt-decode');
+
+const tokenList = {}
 
 const User_Signup = (req, res) => {
   var user = req.body;
@@ -62,6 +65,36 @@ const User_Signup = (req, res) => {
   }
 };
 
+const GenrateAccess_Token=('/token', (req,res) => {
+  // refresh the damn token
+  const postData = req.body;
+  // if refresh token exists
+  if((postData.refreshToken) && (postData.refreshToken in tokenList)) {
+
+    const user=jwt_decode(postData.refreshToken);
+    console.log(user);
+    delete user["iat"];
+    delete user["exp"];
+      const token = jwt.sign(user, process.env.JWT_KEY, { expiresIn: parseInt(process.env.tokenLife)})
+      const refreshToken = jwt.sign({
+        email: user.email,
+        userId: user.id,
+      },
+       process.env.refreshTokenSecret,
+      { expiresIn: parseInt(process.env.refreshTokenLife)});
+      const response = {
+       "error": false,
+       "success": true,
+      "token": token,
+      "refreshToken": refreshToken,
+      }
+      tokenList[refreshToken] = response
+      return res.status(200).json(response);      
+  } else {
+      res.status(404).send('Invalid request')
+  }
+})
+
 const User_Signin = (req, res) => {
   var { email, password, rememberMe } = req.body;
   var user = req.body;
@@ -82,11 +115,24 @@ const User_Signin = (req, res) => {
               userId: user.id,
             },
             process.env.JWT_KEY,
-            (expiry = rememberMe ? { expiresIn: "4m" } : { expiresIn: "2m" })
+            {expiresIn: parseInt(process.env.tokenLife)}
           );
-          return res.send(
-            JSON.stringify({ error: false, success: true, token: token })
-          );
+
+          const refreshToken = jwt.sign({
+            email: user.email,
+            userId: user.id,
+          },
+           process.env.refreshTokenSecret,
+          { expiresIn: parseInt(process.env.refreshTokenLife)});
+          const response = {
+           "error": false,
+           "success": true,
+          "token": token,
+          "refreshToken": refreshToken,
+          }
+          tokenList[refreshToken] = response
+          return res.status(200).json(response);
+
         }
 
 
@@ -242,4 +288,5 @@ module.exports = {
   User_ForgetPassword,
   User_ResetPassword,
   User_Validate,
+  GenrateAccess_Token
 };

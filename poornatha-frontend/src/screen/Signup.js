@@ -139,8 +139,8 @@ export default function SignUp() {
     const num = new RegExp("(?=.*[0-9])");
     const min = new RegExp("(?=.{8,})");
 
-    var text =
-      "Must Contain atleast 1 lowercase alphabet \n  Must Contain atleast 1 uppercase alphaber\nMust contain atleast 1 number\n Must be of atleast 8 character length.";
+    // var text =
+    //   "Must Contain atleast 1 lowercase alphabet \n  Must Contain atleast 1 uppercase alphaber\nMust contain atleast 1 number\n Must be of atleast 8 character length.";
 
     if (!min.test(e.target.value)) {
       setPassError({
@@ -225,7 +225,7 @@ export default function SignUp() {
   useEffect(() => {
     if (user) {
       dispatch({ type: "USER", payload: user });
-      history.push("/");
+      history.push("/Home");
     }
   }, [state]);
 

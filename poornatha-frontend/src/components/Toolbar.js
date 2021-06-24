@@ -109,6 +109,16 @@ const {state,dispatch}=useContext(UserContext);
     MobileMoreAnchorEl: false
   });
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const handleProfileMenuOpen = event => {
     setState({
       achorEl: event.currentTarget
@@ -212,15 +222,7 @@ const {state,dispatch}=useContext(UserContext);
       <div className={classes.grow}>
         <AppBar position="static" className={classes.appbar}>
           <Toolbar>
-            {/* <IconButton
-              edge="start"
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="open drawer"
-              onClick={props.openDrawerHandler}
-            >
-              <MenuIcon />
-            </IconButton> */}
+            
             <div className={classes.brand} onClick={props.openDrawerHandler}>
               <img src={logo}  alt="" className={classes.brand_img}/>
               <Typography className={classes.title} variant="h6" noWrap>
@@ -260,20 +262,38 @@ const {state,dispatch}=useContext(UserContext);
             aria-controls="primary-search-account-menu"
             aria-haspopup="true"
             color="inherit"
+            onClick={handleClick}
           >
             <AccountCircle/>
           </IconButton>
+          <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        <MenuItem  style={{padding:"10px"}}>
        
-              <IconButton
-                edge="end"
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                onClick={()=>{localStorage.clear(); dispatch({type:"CLEAR",payload:null}); history.push('/Signin')}}
-                color="inherit"
-              >
-                <ExitToApp/>
-              </IconButton>
+            <AccountCircle/>
+          
+            <Typography variant="body2"> My Account</Typography>
+          </MenuItem>
+        <MenuItem  style={{padding:"10px"}}onClick={()=>{localStorage.clear(); dispatch({type:"CLEAR",payload:null}); history.push('/Signin')}}>
+        
+            <ExitToApp/>
+       
+         <Typography variant="body2">Logout</Typography>
+          </MenuItem>
+      </Menu>
             </div>
             <div className={classes.sectionMobile}>
               <IconButton

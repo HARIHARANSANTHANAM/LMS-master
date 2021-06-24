@@ -6,6 +6,9 @@ import {useHistory} from 'react-router-dom';
 import clsx from 'clsx';
 import { makeStyles} from '@material-ui/core/styles';
 
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 function ApplicationForm(props) {
     
   const useStyles = makeStyles((theme) => ({
@@ -26,7 +29,11 @@ function ApplicationForm(props) {
       [theme.breakpoints.down('sm')]: {
         marginLeft: 0
       },
-    }
+    },
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: '#fff',
+    },
   }));
 
 
@@ -49,8 +56,11 @@ function ApplicationForm(props) {
         />
          <main className={clsx(classes.content)}> 
         <div style={{marginTop:"5%"}}>
+      
         <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSf_0bMmOThn9AWUotU73oQlh5q93ysViVKcLKWzjKMBRrJfxA/viewform?embedded=true" scrolling="no" width="100%" height="6500" frameborder="0" marginheight="0" marginwidth="0">
-            Loading…
+        <Backdrop className={classes.backdrop} open={true} >
+        <CircularProgress color="inherit" />
+      </Backdrop>
         </iframe>
          </div>
         </main>
